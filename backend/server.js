@@ -50,6 +50,27 @@ app.use('/api/games', gameRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 
+// Thumbnail Generator dev helper
+const fs = require('fs');
+app.post('/api/dev/save-thumbnail', (req, res) => {
+  try {
+    const { name, jpgData, pngData } = req.body;
+    if (!name) return res.status(400).json({ error: 'Missing name' });
+    const thumbDir = path.resolve(__dirname, '../frontend/public/images/thumbnails');
+    if (jpgData) {
+      const base64Data = jpgData.replace(/^data:image\/jpeg;base64,/, '');
+      fs.writeFileSync(path.join(thumbDir, `${name}.jpg`), base64Data, 'base64');
+    }
+    if (pngData) {
+      const base64Data = pngData.replace(/^data:image\/png;base64,/, '');
+      fs.writeFileSync(path.join(thumbDir, `${name}.png`), base64Data, 'base64');
+    }
+    res.json({ success: true, name });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Root fallback
 app.get('/', (req, res) => {
   res.json({

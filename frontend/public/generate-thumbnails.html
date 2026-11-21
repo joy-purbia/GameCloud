@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thumbnail Generator</title>
+</head>
+<body style="background:#111; color:#eee; font-family:sans-serif; padding:20px;">
+  <h1>Generating Thumbnails...</h1>
+  <div id="status">Starting...</div>
+  <canvas id="c" width="640" height="380" style="display:none;"></canvas>
+
+  <script>
+    const games = ['neon-racer', '2048', 'hexgl', 'supertuxkart', 'luanti', 'openarena'];
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const statusEl = document.getElementById('status');
+
+    async function convertAll() {
+      for (const name of games) {
+        statusEl.innerHTML += `<br>Converting ${name}...`;
+        await new Promise((resolve) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = async () => {
+            ctx.clearRect(0, 0, 640, 380);
+            ctx.drawImage(img, 0, 0, 640, 380);
+            const jpgData = canvas.toDataURL('image/jpeg', 0.95);
+            const pngData = canvas.toDataURL('image/png');
+
+            await fetch('http://localhost:5055/api/dev/save-thumbnail', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, jpgData, pngData })
+            });
+            statusEl.innerHTML += ` OK!`;
+            resolve();
+          };
+          img.onerror = (e) => {
+            statusEl.innerHTML += ` FAILED (${e})`;
+            resolve();
+          };
+          img.src = `/images/thumbnails/${name}.svg?t=` + Date.now();
+        });
+      }
+      statusEl.innerHTML += `<br><strong>ALL DONE!</strong>`;
+      window.__ALL_DONE = true;
+    }
+
+    convertAll();
+  </script>
+</body>
+</html>

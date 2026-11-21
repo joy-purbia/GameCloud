@@ -1,15 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgL" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06241a"/>
-      <stop offset="100%" stop-color="#020d0a"/>
+    <linearGradient id="lua-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#022c22"/>
+      <stop offset="50%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#021c16"/>
     </linearGradient>
+
+    <filter id="cyber-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="600" height="400" fill="url(#bgL)"/>
-  <!-- Voxel cube isometric -->
-  <polygon points="300,100 370,140 300,180 230,140" fill="#10b981"/>
-  <polygon points="230,140 300,180 300,260 230,220" fill="#059669"/>
-  <polygon points="370,140 300,180 300,260 370,220" fill="#047857"/>
-  <text x="300" y="320" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="36" font-weight="900" fill="#10b981" letter-spacing="4">LUANTI</text>
-  <text x="300" y="355" text-anchor="middle" font-family="'Rajdhani', sans-serif" font-size="18" font-weight="700" fill="#94a3b8" letter-spacing="2">VOXEL SANDBOX ENGINE</text>
+
+  <rect width="640" height="380" fill="url(#lua-bg)"/>
+
+  <!-- Voxel Floating Island in Isometric 3D -->
+  <g transform="translate(320, 190)">
+    <!-- Island Shadow -->
+    <ellipse cx="0" cy="110" rx="140" ry="25" fill="#000000" opacity="0.4"/>
+
+    <!-- Bottom Bedrock Taper (Brown/Slate) -->
+    <polygon points="0,95 -120,25 0,-15 120,25" fill="#1e293b"/>
+    <polygon points="-120,25 0,95 0,140 -120,60" fill="#0f172a"/>
+    <polygon points="0,95 120,25 120,60 0,140" fill="#090d16"/>
+
+    <!-- Dirt Middle Layer -->
+    <polygon points="0,45 -120,-25 0,-65 120,-25" fill="#78350f"/>
+    <polygon points="-120,-25 0,45 0,95 -120,25" fill="#92400e"/>
+    <polygon points="0,45 120,-25 120,25 0,95" fill="#713f12"/>
+
+    <!-- Top Grass Layer -->
+    <polygon points="0,0 -120,-70 0,-110 120,-70" fill="#22c55e"/>
+    <polygon points="-120,-70 0,0 0,25 -120,-45" fill="#16a34a"/>
+    <polygon points="0,0 120,-70 120,-45 0,25" fill="#15803d"/>
+
+    <!-- Glowing Cyber Ore Blocks embedded in side -->
+    <g transform="translate(-40, 20)">
+      <polygon points="0,0 20,-10 40,0 20,10" fill="#06b6d4" filter="url(#cyber-glow)"/>
+      <polygon points="0,0 20,10 20,28 0,18" fill="#0891b2" filter="url(#cyber-glow)"/>
+      <polygon points="20,10 40,0 40,18 20,28" fill="#0e7490" filter="url(#cyber-glow)"/>
+    </g>
+
+    <g transform="translate(30, 45)">
+      <polygon points="0,0 18,-9 36,0 18,9" fill="#06b6d4" filter="url(#cyber-glow)"/>
+      <polygon points="0,0 18,9 18,25 0,16" fill="#0891b2" filter="url(#cyber-glow)"/>
+      <polygon points="18,9 36,0 36,16 18,25" fill="#0e7490" filter="url(#cyber-glow)"/>
+    </g>
+
+    <!-- Voxel Tree on Top of Island -->
+    <g transform="translate(-30, -115)">
+      <!-- Wood Trunk -->
+      <polygon points="0,0 16,-8 0,-16 -16,-8" fill="#b45309"/>
+      <polygon points="-16,-8 0,0 0,35 -16,27" fill="#92400e"/>
+      <polygon points="0,0 16,-8 16,27 0,35" fill="#78350f"/>
+
+      <!-- Cubic Foliage Crown -->
+      <g transform="translate(0, -35)">
+        <polygon points="0,0 45,-22 0,-44 -45,-22" fill="#4ade80"/>
+        <polygon points="-45,-22 0,0 0,35 -45,13" fill="#22c55e"/>
+        <polygon points="0,0 45,-22 45,13 0,35" fill="#16a34a"/>
+      </g>
+    </g>
+
+    <!-- Floating Diamond Pickaxe Icon -->
+    <g transform="translate(70, -60) rotate(-20)">
+      <!-- Handle -->
+      <line x1="-30" y1="30" x2="15" y2="-15" stroke="#92400e" stroke-width="6" stroke-linecap="round"/>
+      <!-- Pickaxe Head (Cyber Cyan) -->
+      <path d="M-5,-30 C15,-20 30,-5 35,10 L25,15 C20,5 10,-8 -10,-15 Z" fill="#06b6d4" filter="url(#cyber-glow)"/>
+    </g>
+  </g>
+
+  <!-- Title Badge Top Left -->
+  <rect x="20" y="20" width="230" height="48" rx="8" fill="#080c18" fill-opacity="0.85" stroke="#10b981" stroke-width="1.5"/>
+  <text x="32" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="900" fill="#ffffff" letter-spacing="1.5">LUANTI VOXEL 3D</text>
+  <text x="32" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="700" fill="#34d399" letter-spacing="1.5">INFINITE 3D VOXEL SANDBOX</text>
+
+  <!-- Tag Pill Top Right -->
+  <rect x="520" y="20" width="100" height="28" rx="6" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="800" fill="#34d399" letter-spacing="1">PLAYABLE</text>
 </svg>
