@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { 
   User, 
   Clock, 
@@ -18,10 +18,11 @@ import GameCard from '../components/GameCard';
 
 export default function UserDashboardPage() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [profile, setProfile] = useState(null);
   const [favourites, setFavourites] = useState([]);
   const [history, setHistory] = useState([]);
-  const [activeTab, setActiveTab] = useState('favourites');
+  const [activeTab, setActiveTab] = useState(() => searchParams.get('tab') === 'history' ? 'history' : 'favourites');
   const [loading, setLoading] = useState(true);
 
   const loadDashboard = async () => {

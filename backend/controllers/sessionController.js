@@ -31,6 +31,22 @@ const createSession = async (req, res, next) => {
       [sessionId, userId, gameId, executionType]
     );
 
+    // If session has a registered user, record play history immediately
+    if (userId) {
+      await pool.query(
+        `INSERT INTO play_history (user_id, game_id, total_play_time_seconds, last_played_at)
+         VALUES (?, ?, 0, NOW())
+         ON DUPLICATE KEY UPDATE last_played_at = NOW()`,
+        [userId, gameId]
+      );
+    }
+
+    // Increment game total_plays count
+    await pool.query(
+      `UPDATE games SET total_plays = total_plays + 1 WHERE id = ?`,
+      [gameId]
+    );
+
     res.status(201).json({
       success: true,
       message: 'Game session initialized.',
@@ -47,6 +63,50 @@ const createSession = async (req, res, next) => {
   }
 };
 
+// POST /api/sessions/:id/heartbeat
+const heartbeatSession = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { durationSeconds = 0 } = req.body;
+    const duration = Math.max(0, parseInt(durationSeconds, 10) || 0);
+
+    const [sessions] = await pool.query(
+      'SELECT session_id, user_id, game_id, duration_seconds FROM game_sessions WHERE session_id = ?',
+      [id]
+    );
+
+    if (sessions.length === 0) {
+      return res.status(404).json({ success: false, message: 'Session not found.' });
+    }
+
+    const session = sessions[0];
+    const prevDuration = session.duration_seconds || 0;
+    const addedDuration = Math.max(0, duration - prevDuration);
+
+    await pool.query(
+      `UPDATE game_sessions 
+       SET duration_seconds = ?, stopped_at = NOW() 
+       WHERE session_id = ?`,
+      [duration, id]
+    );
+
+    if (session.user_id) {
+      await pool.query(
+        `INSERT INTO play_history (user_id, game_id, total_play_time_seconds, last_played_at)
+         VALUES (?, ?, ?, NOW())
+         ON DUPLICATE KEY UPDATE 
+           total_play_time_seconds = total_play_time_seconds + ?,
+           last_played_at = NOW()`,
+        [session.user_id, session.game_id, duration, addedDuration]
+      );
+    }
+
+    res.status(200).json({ success: true, durationSeconds: duration });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // PATCH /api/sessions/:id/stop
 const stopSession = async (req, res, next) => {
   try {
@@ -54,7 +114,7 @@ const stopSession = async (req, res, next) => {
     const { durationSeconds = 0 } = req.body;
 
     const [sessions] = await pool.query(
-      'SELECT session_id, user_id, game_id, status, started_at FROM game_sessions WHERE session_id = ?',
+      'SELECT session_id, user_id, game_id, status, started_at, duration_seconds FROM game_sessions WHERE session_id = ?',
       [id]
     );
 
@@ -67,6 +127,8 @@ const stopSession = async (req, res, next) => {
 
     const session = sessions[0];
     const duration = Math.max(0, parseInt(durationSeconds, 10) || 0);
+    const prevDuration = session.duration_seconds || 0;
+    const addedDuration = Math.max(0, duration - prevDuration);
 
     await pool.query(
       `UPDATE game_sessions 
@@ -81,9 +143,9 @@ const stopSession = async (req, res, next) => {
         `INSERT INTO play_history (user_id, game_id, total_play_time_seconds, last_played_at)
          VALUES (?, ?, ?, NOW())
          ON DUPLICATE KEY UPDATE 
-           total_play_time_seconds = total_play_time_seconds + VALUES(total_play_time_seconds),
+           total_play_time_seconds = total_play_time_seconds + ?,
            last_played_at = NOW()`,
-        [session.user_id, session.game_id, duration]
+        [session.user_id, session.game_id, duration, addedDuration]
       );
     }
 
@@ -173,6 +235,7 @@ const getAllSessions = async (req, res, next) => {
 
 module.exports = {
   createSession,
+  heartbeatSession,
   stopSession,
   getUserSessions,
   getAllSessions

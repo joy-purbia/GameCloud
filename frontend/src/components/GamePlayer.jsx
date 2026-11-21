@@ -25,16 +25,21 @@ export default function GamePlayer({ game }) {
   const playerContainerRef = useRef(null);
   const navigate = useNavigate();
 
-  // 1. Initialize Game Session in Database
+  const durationRef = useRef(0);
+  const sessionIdRef = useRef(null);
+  const sessionStartedRef = useRef(false);
+
+  // 1. Initialize Game Session in Database and Periodic Heartbeat
   useEffect(() => {
-    let currentSessionId = null;
+    if (sessionStartedRef.current) return;
+    sessionStartedRef.current = true;
 
     const startSession = async () => {
       try {
         const res = await api.createSession(game.id, 'browser');
-        if (res.success) {
-          currentSessionId = res.data.sessionId;
-          setSessionId(currentSessionId);
+        if (res.success && res.data?.sessionId) {
+          sessionIdRef.current = res.data.sessionId;
+          setSessionId(res.data.sessionId);
         }
       } catch (err) {
         console.warn('Session tracking notice:', err.message);
@@ -43,21 +48,49 @@ export default function GamePlayer({ game }) {
 
     startSession();
 
-    // Session Timer
+    // 1-second UI Play Timer
     const timer = setInterval(() => {
-      setSessionSeconds(prev => prev + 1);
+      setSessionSeconds(prev => {
+        const next = prev + 1;
+        durationRef.current = next;
+        return next;
+      });
     }, 1000);
+
+    // 8-second Heartbeat to sync play history & duration continuously
+    const heartbeatTimer = setInterval(() => {
+      if (sessionIdRef.current && durationRef.current > 0) {
+        api.heartbeatSession(sessionIdRef.current, durationRef.current)
+          .catch(e => console.warn('Heartbeat notice:', e.message));
+      }
+    }, 8000);
+
+    // Beacon / Keepalive on browser window close
+    const handleBeforeUnload = () => {
+      if (sessionIdRef.current) {
+        const token = localStorage.getItem('gamecloud_token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        fetch(`/api/sessions/${sessionIdRef.current}/stop`, {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({ durationSeconds: durationRef.current }),
+          keepalive: true
+        }).catch(() => {});
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     // Stop session when leaving component
     return () => {
       clearInterval(timer);
-      if (currentSessionId) {
-        setSessionSeconds(finalDuration => {
-          api.stopSession(currentSessionId, finalDuration)
-            .then(() => refreshUser())
-            .catch(e => console.warn('Stop session error:', e.message));
-          return finalDuration;
-        });
+      clearInterval(heartbeatTimer);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+
+      if (sessionIdRef.current) {
+        api.stopSession(sessionIdRef.current, durationRef.current)
+          .then(() => refreshUser?.())
+          .catch(e => console.warn('Stop session error:', e.message));
       }
     };
   }, [game.id]);
@@ -92,6 +125,11 @@ export default function GamePlayer({ game }) {
   const handleExit = () => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
+    }
+    if (sessionIdRef.current) {
+      api.stopSession(sessionIdRef.current, durationRef.current)
+        .then(() => refreshUser?.())
+        .catch(() => {});
     }
     navigate('/games');
   };

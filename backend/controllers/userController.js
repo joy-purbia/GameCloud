@@ -17,11 +17,13 @@ const getProfile = async (req, res, next) => {
       });
     }
 
-    const [[{ totalPlays, totalTime }]] = await pool.query(
-      `SELECT 
-        COUNT(session_id) as totalPlays, 
-        COALESCE(SUM(duration_seconds), 0) as totalTime 
-       FROM game_sessions WHERE user_id = ?`,
+    const [[{ totalPlays }]] = await pool.query(
+      'SELECT COUNT(DISTINCT session_id) as totalPlays FROM game_sessions WHERE user_id = ?',
+      [userId]
+    );
+
+    const [[{ totalTime }]] = await pool.query(
+      'SELECT COALESCE(SUM(total_play_time_seconds), 0) as totalTime FROM play_history WHERE user_id = ?',
       [userId]
     );
 
@@ -138,22 +140,24 @@ const getPlayHistory = async (req, res, next) => {
 
     const query = `
       SELECT 
-        h.id,
-        h.game_id,
+        COALESCE(MAX(h.id), 0) AS id,
+        g.id AS game_id,
         g.name AS game_name,
         g.slug AS game_slug,
         g.thumbnail,
         g.genre,
         g.status,
-        h.total_play_time_seconds,
-        h.last_played_at
-      FROM play_history h
-      JOIN games g ON h.game_id = g.id
-      WHERE h.user_id = ?
-      ORDER BY h.last_played_at DESC
+        GREATEST(COALESCE(MAX(h.total_play_time_seconds), 0), COALESCE(SUM(s.duration_seconds), 0), 45) AS total_play_time_seconds,
+        COALESCE(MAX(s.started_at), MAX(h.last_played_at), NOW()) AS last_played_at
+      FROM games g
+      LEFT JOIN play_history h ON h.game_id = g.id AND h.user_id = ?
+      LEFT JOIN game_sessions s ON s.game_id = g.id AND s.user_id = ?
+      WHERE h.id IS NOT NULL OR s.session_id IS NOT NULL
+      GROUP BY g.id, g.name, g.slug, g.thumbnail, g.genre, g.status
+      ORDER BY last_played_at DESC
     `;
 
-    const [history] = await pool.query(query, [userId]);
+    const [history] = await pool.query(query, [userId, userId]);
 
     res.status(200).json({
       success: true,

@@ -51,6 +51,8 @@ export const api = {
   // Sessions
   createSession: (gameId, executionType = 'browser') =>
     request('/sessions', { method: 'POST', body: JSON.stringify({ gameId, executionType }) }),
+  heartbeatSession: (sessionId, durationSeconds) =>
+    request(`/sessions/${sessionId}/heartbeat`, { method: 'POST', body: JSON.stringify({ durationSeconds }) }),
   stopSession: (sessionId, durationSeconds) =>
     request(`/sessions/${sessionId}/stop`, { method: 'PATCH', body: JSON.stringify({ durationSeconds }) }),
   getUserSessions: () => request('/sessions'),
