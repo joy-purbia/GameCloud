@@ -48,74 +48,86 @@ INSERT INTO games (name, slug, description, genre, thumbnail, icon, color, launc
   )
 ),
 (
-  'HexGL',
+  'HexGL HyperSpeed',
   'hexgl',
-  'Tribute to futuristic anti-gravity racing classics like Wipeout. Currently catalogued as an experimental WebGL asset investigation; direct browser bundle undergoing asset optimization.',
+  'Hyperspeed futuristic anti-gravity hovercraft racing game inspired by Wipeout. Navigate a neon cyber circuit at 500+ km/h using air-brakes and turbo speed pads.',
   'Racing',
   '/images/thumbnails/hexgl.jpg',
   'Gauge',
   '#ec4899',
   'browser_webgl',
-  '',
-  'experimental',
+  '/games/hexgl/index.html',
+  'playable',
   JSON_OBJECT(
+    'Thrust / Accelerate', 'W / Up Arrow',
+    'Brake / Reverse', 'S / Down Arrow',
     'Steering', 'A / D or Left / Right',
-    'Air Brakes', 'Q / E'
+    'Air Brakes (Drift)', 'Q / E',
+    'Restart', 'R'
   )
 ),
 (
-  'SuperTuxKart 3D',
+  'SuperTuxKart 3D Grand Prix',
   'supertuxkart',
-  'Open-source 3D arcade kart racer featuring Tux and friends. WebAssembly (Wasm) packaging pipeline is in active research for seamless browser execution.',
+  '3D arcade kart racing featuring Tux the Penguin! Battle against AI rivals across an asphalt circuit, collect mystery power-ups (Nitro and Rockets), and fight for 1st place.',
   'Racing',
   '/images/thumbnails/supertuxkart.jpg',
   'Trophy',
   '#f59e0b',
-  'browser_wasm',
-  '',
-  'coming_soon',
+  'browser_webgl',
+  '/games/supertuxkart/index.html',
+  'playable',
   JSON_OBJECT(
-    'Steer', 'Left / Right',
-    'Accelerate', 'Up Arrow',
-    'Use Item', 'Space'
+    'Accelerate', 'W / Up Arrow',
+    'Brake / Reverse', 'S / Down Arrow',
+    'Steer', 'A / D or Left / Right',
+    'Use Power-Up Item', 'Space',
+    'Restart', 'R'
   )
 ),
 (
-  'Luanti (Minetest)',
+  'Luanti Voxel Sandbox 3D',
   'luanti',
-  'Infinite-world voxel sandbox gaming engine. Architectural study underway for Emscripten WebAssembly client and containerized streaming.',
+  'Explore an infinite 3D voxel sandbox world. Mine blocks (grass, dirt, stone, wood, cyber ore) with left-click, place new blocks with right-click, and build your own voxel creations.',
   'Sandbox',
   '/images/thumbnails/luanti.jpg',
   'Box',
   '#10b981',
-  'browser_wasm',
-  '',
-  'coming_soon',
+  'browser_webgl',
+  '/games/luanti/index.html',
+  'playable',
   JSON_OBJECT(
     'Movement', 'WASD',
-    'Look / Mine', 'Mouse',
-    'Jump', 'Space'
+    'Look (Mouse Lock)', 'Mouse',
+    'Mine / Break Block', 'Left Click',
+    'Place Block', 'Right Click',
+    'Jump', 'Space',
+    'Hotbar Slot Select', 'Keys 1 to 6'
   )
 ),
 (
-  'OpenArena',
+  'OpenArena Cyber FPS',
   'openarena',
-  'Community open-source arena FPS built on the id Tech 3 engine. Prepared for remote container execution and WebRTC streaming testbed.',
+  'High-octane 3D arena first-person shooter. Equip your energy plasma blaster, navigate cyber platforms and jump pads, and destroy combat drones to rack up frags.',
   'Action',
   '/images/thumbnails/openarena.jpg',
   'Crosshair',
   '#ef4444',
-  'remote_container',
-  '',
-  'experimental',
+  'browser_webgl',
+  '/games/openarena/index.html',
+  'playable',
   JSON_OBJECT(
-    'Movement', 'WASD',
-    'Aim / Fire', 'Mouse',
-    'Jump', 'Space'
+    'Movement / Strafe', 'WASD',
+    'Aim / Look (Mouse Lock)', 'Mouse',
+    'Fire Plasma Blaster', 'Left Click',
+    'Jump / Launch Pad', 'Space',
+    'Reload Energy Core', 'R'
   )
 )
 ON DUPLICATE KEY UPDATE 
+  name = VALUES(name),
   description = VALUES(description),
+  launch_type = VALUES(launch_type),
   status = VALUES(status),
   launch_url = VALUES(launch_url),
   controls = VALUES(controls);

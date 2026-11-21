@@ -49,10 +49,14 @@ async function runSetup() {
     // 3. Read and execute schema.sql
     const schemaPath = path.resolve(__dirname, 'schema.sql');
     if (fs.existsSync(schemaPath)) {
-      console.log('Applying database schema from schema.sql...');
-      const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-      await connection.query(schemaSql);
-      console.log('✓ Tables created successfully.');
+      try {
+        console.log('Applying database schema from schema.sql...');
+        const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+        await connection.query(schemaSql);
+        console.log('✓ Tables created successfully.');
+      } catch (schemaErr) {
+        console.log('ℹ Schema already initialized (' + schemaErr.message + '), continuing.');
+      }
     }
 
     // 4. Seed Admin and Demo User

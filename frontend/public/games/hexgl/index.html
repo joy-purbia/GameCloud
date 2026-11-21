@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>HexGL — Anti-Gravity Cyber Racer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="glcanvas"></canvas>
+
+    <!-- In-Game HUD -->
+    <div id="hud">
+      <div class="hud-top">
+        <div class="hud-card">
+          <span class="label">SPEED</span>
+          <span class="value"><span id="speed-val">0</span> <small>KM/H</small></span>
+        </div>
+        <div class="hud-card center">
+          <span class="label">LAP TIME</span>
+          <span class="value" id="lap-time">00:00.00</span>
+        </div>
+        <div class="hud-card">
+          <span class="label">LAP</span>
+          <span class="value"><span id="lap-val">1</span>/3</span>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="shield-container">
+          <div class="shield-label">
+            <span>SHIELD INTEGRITY</span>
+            <span id="shield-val">100%</span>
+          </div>
+          <div class="shield-bar-bg">
+            <div id="shield-bar-fill"></div>
+          </div>
+        </div>
+        <div class="airbrakes-status">
+          <span id="brake-l" class="brake-pill">Q: AIR-L</span>
+          <span id="brake-r" class="brake-pill">E: AIR-R</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start / Pause / Game Over Overlay -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-box">
+        <h1 class="glitch" data-text="HEXGL">HEXGL</h1>
+        <p class="subtitle">HYPERSPEED ANTI-GRAVITY RACING</p>
+        <div class="controls-hint">
+          <div class="key-row"><span class="key">W</span> / <span class="key">▲</span> <span>THRUST</span></div>
+          <div class="key-row"><span class="key">S</span> / <span class="key">▼</span> <span>REVERSE / BRAKE</span></div>
+          <div class="key-row"><span class="key">A</span> / <span class="key">D</span> <span>STEER</span></div>
+          <div class="key-row"><span class="key">Q</span> / <span class="key">E</span> <span>AIR-BRAKES (DRIFT)</span></div>
+          <div class="key-row"><span class="key">R</span> <span>QUICK RESET</span></div>
+        </div>
+        <button id="btn-start" class="btn-play">ENGINE START</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

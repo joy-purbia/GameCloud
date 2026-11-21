@@ -3,70 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
 import GamePlayer from '../components/GamePlayer';
+import { DEFAULT_GAMES } from '../data/defaultGames';
 
-// Built-in standalone games that run 100% directly in browser with zero server dependencies
-const LOCAL_GAMES = {
-  'neon-racer': {
-    id: 1,
-    name: 'Neon Racer 3D',
-    slug: 'neon-racer',
-    genre: 'Racing',
-    status: 'playable',
-    launch_url: '/games/neon-racer/index.html',
-    launch_type: 'browser_webgl',
-    controls: {
-      'Accelerate': 'W / Up Arrow',
-      'Brake / Reverse': 'S / Down Arrow',
-      'Steer Left': 'A / Left Arrow',
-      'Steer Right': 'D / Right Arrow',
-      'Drift / Handbrake': 'Space',
-      'Restart Game': 'R'
-    }
-  },
-  '1': {
-    id: 1,
-    name: 'Neon Racer 3D',
-    slug: 'neon-racer',
-    genre: 'Racing',
-    status: 'playable',
-    launch_url: '/games/neon-racer/index.html',
-    launch_type: 'browser_webgl',
-    controls: {
-      'Accelerate': 'W / Up Arrow',
-      'Brake / Reverse': 'S / Down Arrow',
-      'Steer Left': 'A / Left Arrow',
-      'Steer Right': 'D / Right Arrow',
-      'Drift / Handbrake': 'Space',
-      'Restart Game': 'R'
-    }
-  },
-  '2048': {
-    id: 2,
-    name: '2048 Cyber Grid',
-    slug: '2048',
-    genre: 'Puzzle',
-    status: 'playable',
-    launch_url: '/games/2048/index.html',
-    launch_type: 'browser_canvas',
-    controls: {
-      'Move Tiles': 'Arrow Keys / WASD',
-      'Restart Game': 'R / New Game Button'
-    }
-  },
-  '2': {
-    id: 2,
-    name: '2048 Cyber Grid',
-    slug: '2048',
-    genre: 'Puzzle',
-    status: 'playable',
-    launch_url: '/games/2048/index.html',
-    launch_type: 'browser_canvas',
-    controls: {
-      'Move Tiles': 'Arrow Keys / WASD',
-      'Restart Game': 'R / New Game Button'
-    }
-  }
-};
+// Index default games by slug and id for instantaneous offline / direct launch
+const LOCAL_GAMES = {};
+DEFAULT_GAMES.forEach(g => {
+  LOCAL_GAMES[g.slug] = g;
+  LOCAL_GAMES[String(g.id)] = g;
+});
 
 export default function GamePlayPage() {
   const { idOrSlug } = useParams();

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Luanti — 3D Voxel Sandbox</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="glcanvas"></canvas>
+
+    <!-- Crosshair -->
+    <div id="crosshair">+</div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-top">
+        <div class="badge">
+          <span class="label">MODE</span>
+          <span class="value">CREATIVE VOXEL</span>
+        </div>
+        <div class="badge">
+          <span class="label">BLOCKS MINED</span>
+          <span class="value" id="mined-count">0</span>
+        </div>
+      </div>
+
+      <!-- Hotbar -->
+      <div class="hotbar" id="hotbar">
+        <div class="slot active" data-type="1"><span class="key-num">1</span> <span class="slot-color grass"></span> Grass</div>
+        <div class="slot" data-type="2"><span class="key-num">2</span> <span class="slot-color dirt"></span> Dirt</div>
+        <div class="slot" data-type="3"><span class="key-num">3</span> <span class="slot-color stone"></span> Stone</div>
+        <div class="slot" data-type="4"><span class="key-num">4</span> <span class="slot-color wood"></span> Wood</div>
+        <div class="slot" data-type="5"><span class="key-num">5</span> <span class="slot-color cyber"></span> Cyber Ore</div>
+        <div class="slot" data-type="6"><span class="key-num">6</span> <span class="slot-color leaf"></span> Leaves</div>
+      </div>
+    </div>
+
+    <!-- Start / Instructions Overlay -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-box">
+        <div class="badge-title">📦 VOXEL SANDBOX</div>
+        <h1>LUANTI</h1>
+        <p class="subtitle">INFINITE 3D VOXEL WORLD</p>
+        <div class="controls-hint">
+          <div class="key-row"><span class="key">WASD</span> <span>MOVE AROUND</span></div>
+          <div class="key-row"><span class="key">MOUSE</span> <span>LOOK AROUND (POINTER LOCK)</span></div>
+          <div class="key-row"><span class="key">LEFT CLICK</span> <span>BREAK / MINE BLOCK</span></div>
+          <div class="key-row"><span class="key">RIGHT CLICK</span> <span>PLACE BLOCK</span></div>
+          <div class="key-row"><span class="key">SPACE</span> <span>JUMP</span></div>
+          <div class="key-row"><span class="key">1 - 6</span> <span>SELECT BLOCK TYPE</span></div>
+        </div>
+        <button id="btn-start" class="btn-play">ENTER WORLD</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

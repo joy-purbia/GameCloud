@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SuperTuxKart 3D — Cyber Grand Prix</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="glcanvas"></canvas>
+
+    <!-- In-Game HUD -->
+    <div id="hud">
+      <div class="hud-top">
+        <div class="hud-badge position">
+          <span class="label">POSITION</span>
+          <span class="value" id="pos-val">1st</span>
+        </div>
+        <div class="hud-badge item-slot">
+          <span class="label">POWER-UP [SPACE]</span>
+          <div id="item-icon" class="item-none">EMPTY</div>
+        </div>
+        <div class="hud-badge">
+          <span class="label">LAP</span>
+          <span class="value"><span id="lap-val">1</span>/3</span>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="speedo">
+          <span id="speed-val">0</span>
+          <small>KM/H</small>
+        </div>
+        <div class="time-display">
+          <span id="time-val">00:00.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start / Result Overlay -->
+    <div id="overlay" class="overlay">
+      <div class="overlay-box">
+        <div class="tux-badge">🐧 GRAND PRIX</div>
+        <h1>SUPERTUXKART</h1>
+        <p class="subtitle">ARCADE CIRCUIT RACER</p>
+        <div class="controls-hint">
+          <div class="key-row"><span class="key">W</span> / <span class="key">▲</span> <span>ACCELERATE</span></div>
+          <div class="key-row"><span class="key">S</span> / <span class="key">▼</span> <span>BRAKE / REVERSE</span></div>
+          <div class="key-row"><span class="key">A</span> / <span class="key">D</span> <span>STEER LEFT / RIGHT</span></div>
+          <div class="key-row"><span class="key">SPACE</span> <span>USE POWER-UP ITEM</span></div>
+          <div class="key-row"><span class="key">R</span> <span>QUICK RESTART</span></div>
+        </div>
+        <button id="btn-start" class="btn-play">START RACE</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>

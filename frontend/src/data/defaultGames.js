@@ -39,73 +39,83 @@ export const DEFAULT_GAMES = [
   },
   {
     id: 3,
-    name: 'HexGL',
+    name: 'HexGL HyperSpeed',
     slug: 'hexgl',
-    description: 'Tribute to futuristic anti-gravity racing classics like Wipeout. Currently catalogued as an experimental WebGL asset investigation.',
+    description: 'Hyperspeed futuristic anti-gravity hovercraft racing game inspired by Wipeout. Navigate a neon cyber circuit at 500+ km/h using air-brakes and turbo speed pads.',
     genre: 'Racing',
     thumbnail: '/images/thumbnails/hexgl.jpg',
     icon: 'Gauge',
     color: '#ec4899',
     launch_type: 'browser_webgl',
-    launch_url: '',
-    status: 'experimental',
+    launch_url: '/games/hexgl/index.html',
+    status: 'playable',
     controls: {
+      'Thrust / Accelerate': 'W / Up Arrow',
+      'Brake / Reverse': 'S / Down Arrow',
       'Steering': 'A / D or Left / Right',
-      'Air Brakes': 'Q / E'
+      'Air Brakes (Drift)': 'Q / E',
+      'Restart': 'R'
     }
   },
   {
     id: 4,
-    name: 'SuperTuxKart 3D',
+    name: 'SuperTuxKart 3D Grand Prix',
     slug: 'supertuxkart',
-    description: 'Open-source 3D arcade kart racer featuring Tux and friends. WebAssembly (Wasm) packaging pipeline is in active research.',
+    description: '3D arcade kart racing featuring Tux the Penguin! Battle against AI rivals across an asphalt circuit, collect mystery power-ups (Nitro and Rockets), and fight for 1st place.',
     genre: 'Racing',
     thumbnail: '/images/thumbnails/supertuxkart.jpg',
     icon: 'Trophy',
     color: '#f59e0b',
-    launch_type: 'browser_wasm',
-    launch_url: '',
-    status: 'coming_soon',
+    launch_type: 'browser_webgl',
+    launch_url: '/games/supertuxkart/index.html',
+    status: 'playable',
     controls: {
-      'Steer': 'Left / Right',
-      'Accelerate': 'Up Arrow',
-      'Use Item': 'Space'
+      'Accelerate': 'W / Up Arrow',
+      'Brake / Reverse': 'S / Down Arrow',
+      'Steer': 'A / D or Left / Right',
+      'Use Power-Up Item': 'Space',
+      'Restart': 'R'
     }
   },
   {
     id: 5,
-    name: 'Luanti (Minetest)',
+    name: 'Luanti Voxel Sandbox 3D',
     slug: 'luanti',
-    description: 'Infinite-world voxel sandbox gaming engine. Architectural study underway for Emscripten WebAssembly client.',
+    description: 'Explore an infinite 3D voxel sandbox world. Mine blocks (grass, dirt, stone, wood, cyber ore) with left-click, place new blocks with right-click, and build your own voxel creations.',
     genre: 'Sandbox',
     thumbnail: '/images/thumbnails/luanti.jpg',
     icon: 'Box',
     color: '#10b981',
-    launch_type: 'browser_wasm',
-    launch_url: '',
-    status: 'coming_soon',
+    launch_type: 'browser_webgl',
+    launch_url: '/games/luanti/index.html',
+    status: 'playable',
     controls: {
       'Movement': 'WASD',
-      'Look / Mine': 'Mouse',
-      'Jump': 'Space'
+      'Look (Mouse Lock)': 'Mouse',
+      'Mine / Break Block': 'Left Click',
+      'Place Block': 'Right Click',
+      'Jump': 'Space',
+      'Hotbar Slot Select': 'Keys 1 to 6'
     }
   },
   {
     id: 6,
-    name: 'OpenArena',
+    name: 'OpenArena Cyber FPS',
     slug: 'openarena',
-    description: 'Community open-source arena FPS built on the id Tech 3 engine. Prepared for future WebRTC streaming testbed.',
+    description: 'High-octane 3D arena first-person shooter. Equip your energy plasma blaster, navigate cyber platforms and jump pads, and destroy combat drones to rack up frags.',
     genre: 'Action',
     thumbnail: '/images/thumbnails/openarena.jpg',
     icon: 'Crosshair',
     color: '#ef4444',
-    launch_type: 'remote_container',
-    launch_url: '',
-    status: 'experimental',
+    launch_type: 'browser_webgl',
+    launch_url: '/games/openarena/index.html',
+    status: 'playable',
     controls: {
-      'Movement': 'WASD',
-      'Aim / Fire': 'Mouse',
-      'Jump': 'Space'
+      'Movement / Strafe': 'WASD',
+      'Aim / Look (Mouse Lock)': 'Mouse',
+      'Fire Plasma Blaster': 'Left Click',
+      'Jump / Launch Pad': 'Space',
+      'Reload Energy Core': 'R'
     }
   }
 ];
