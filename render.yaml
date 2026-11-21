@@ -1,0 +1,25 @@
+# Render Blueprint Specification for GameCloud Platform
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: gamecloud
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm run build:render
+    startCommand: npm run start:render
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_SSL
+        value: true
+      # Optional: Add your free cloud MySQL URI (e.g. TiDB Serverless, Aiven, Railway)
+      # Format: mysql://username:password@gateway.tidbcloud.com:4000/gamecloud
+      - key: DATABASE_URL
+        sync: false

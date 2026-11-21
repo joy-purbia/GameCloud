@@ -12,7 +12,9 @@
     "dev:frontend": "cd frontend && npm run dev",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "build": "cd frontend && npm run build"
+    "build": "cd frontend && npm run build",
+    "build:render": "npm install && cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start:render": "node backend/server.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
