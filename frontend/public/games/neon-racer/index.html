@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Neon Racer 3D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <!-- In-Game HUD -->
+  <div id="hud">
+    <div class="top-bar">
+      <div class="hud-panel">
+        <div class="title-badge">NEON RACER</div>
+        <div class="shield-container">
+          <div id="shield-bar"></div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 16px;">
+        <div class="hud-panel" style="text-align: right;">
+          <div class="hud-stat-label">DISTANCE</div>
+          <div class="hud-stat-value" id="hud-distance">0m</div>
+        </div>
+        <div class="hud-panel" style="text-align: right;">
+          <div class="hud-stat-label">SCORE</div>
+          <div class="hud-stat-value score" id="hud-score">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="speedometer">
+        <div class="speed-number" id="hud-speed">0</div>
+        <div class="speed-unit">KM / H</div>
+      </div>
+
+      <div class="controls-hint">
+        <span class="key-pill">W / ↑</span> ACCELERATE &nbsp;|&nbsp;
+        <span class="key-pill">A / D</span> STEER &nbsp;|&nbsp;
+        <span class="key-pill">SPACE</span> DRIFT &nbsp;|&nbsp;
+        <span class="key-pill">R</span> RESTART
+      </div>
+    </div>
+  </div>
+
+  <!-- Start / Intro Screen -->
+  <div class="modal-overlay active" id="start-modal">
+    <div class="modal-card">
+      <div class="modal-title">NEON RACER 3D</div>
+      <div class="modal-subtitle">SYNTHWAVE HYPERSPEED HIGHWAY</div>
+
+      <div class="modal-stats" style="grid-template-columns: 1fr;">
+        <div style="font-size: 14px; color: #cbd5e1; line-height: 1.6; text-align: left;">
+          • Dodge <span style="color: #f43f5e; font-weight: bold;">RED Obstacle Lasers</span><br>
+          • Collect <span style="color: #a855f7; font-weight: bold;">MAGENTA Boost Pads</span> for Nitro<br>
+          • Maintain top speed to maximize your multiplier!
+        </div>
+      </div>
+
+      <button class="btn-neon" id="start-btn">LAUNCH GAME</button>
+    </div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div class="modal-overlay" id="gameover-modal">
+    <div class="modal-card">
+      <div class="modal-title" style="background: linear-gradient(90deg, #f43f5e, #fb923c); -webkit-background-clip: text;">SYSTEM CRITICAL</div>
+      <div class="modal-subtitle">VEHICLE INTEGRITY DEPLETED</div>
+
+      <div class="modal-stats">
+        <div class="stat-item">
+          <div class="stat-label">FINAL SCORE</div>
+          <div class="stat-num" id="final-score" style="color: #f43f5e;">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">DISTANCE REACHED</div>
+          <div class="stat-num" id="final-distance">0m</div>
+        </div>
+      </div>
+
+      <button class="btn-neon" id="restart-btn">RETRY (PRESS R)</button>
+    </div>
+  </div>
+
+  <!-- Three.js module import & Game Logic -->
+  <script type="module" src="game.js"></script>
+</body>
+</html>

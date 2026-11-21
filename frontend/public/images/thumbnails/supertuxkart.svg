@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgSTK" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1304"/>
+      <stop offset="100%" stop-color="#0a0802"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bgSTK)"/>
+  <circle cx="300" cy="180" r="70" fill="#f59e0b" opacity="0.3"/>
+  <circle cx="300" cy="180" r="50" fill="#1e293b"/>
+  <ellipse cx="300" cy="190" rx="25" ry="30" fill="#f8fafc"/>
+  <circle cx="285" cy="165" r="5" fill="#000"/>
+  <circle cx="315" cy="165" r="5" fill="#000"/>
+  <polygon points="295,175 305,175 300,185" fill="#ea580c"/>
+  <text x="300" y="310" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="34" font-weight="900" fill="#f59e0b" letter-spacing="3">SUPERTUXKART 3D</text>
+  <text x="300" y="345" text-anchor="middle" font-family="'Rajdhani', sans-serif" font-size="18" font-weight="700" fill="#94a3b8" letter-spacing="2">WASM PIPELINE COMING SOON</text>
+</svg>

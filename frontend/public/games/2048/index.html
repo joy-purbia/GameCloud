@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>2048 Cyber Grid</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <!-- Header -->
+    <div class="game-header">
+      <div class="game-title">2048</div>
+      <div class="scores-wrapper">
+        <div class="score-box">
+          <div class="score-title">SCORE</div>
+          <div class="score-val" id="score">0</div>
+        </div>
+        <div class="score-box">
+          <div class="score-title">BEST</div>
+          <div class="score-val" id="best-score">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="hint-text">Join tiles to reach <b>2048</b>!</div>
+      <button class="btn-restart" id="btn-new-game">NEW GAME (R)</button>
+    </div>
+
+    <!-- Board -->
+    <div class="grid-board" id="grid-board">
+      <!-- 16 Cells will be rendered here -->
+      
+      <!-- Overlay for Win/Lose -->
+      <div class="modal-overlay" id="game-modal">
+        <div class="modal-title" id="modal-title">GAME OVER</div>
+        <div class="modal-text" id="modal-desc">No more valid moves remaining!</div>
+        <div style="display: flex; gap: 12px;">
+          <button class="btn-modal" id="btn-modal-action">TRY AGAIN</button>
+          <button class="btn-modal" id="btn-keep-going" style="display: none; background: #334155;">KEEP GOING</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size: 12px; color: #64748b; letter-spacing: 0.5px;">
+      Use <b>Arrow Keys</b> or <b>WASD</b> or <b>Swipe</b> on touchscreen
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

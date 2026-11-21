@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg2048" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg2048)"/>
+  <rect x="180" y="80" width="240" height="240" rx="16" fill="#0f172a" stroke="#8b5cf6" stroke-width="3"/>
+  <!-- Tiles -->
+  <rect x="195" y="95" width="45" height="45" rx="6" fill="#0284c7"/>
+  <text x="217" y="125" text-anchor="middle" font-family="'Orbitron', monospace" font-size="18" font-weight="900" fill="#fff">8</text>
+
+  <rect x="250" y="95" width="45" height="45" rx="6" fill="#06b6d4"/>
+  <text x="272" y="125" text-anchor="middle" font-family="'Orbitron', monospace" font-size="16" font-weight="900" fill="#fff">16</text>
+
+  <rect x="305" y="95" width="45" height="45" rx="6" fill="#10b981"/>
+  <text x="327" y="125" text-anchor="middle" font-family="'Orbitron', monospace" font-size="16" font-weight="900" fill="#fff">64</text>
+
+  <rect x="360" y="95" width="45" height="45" rx="6" fill="#f59e0b"/>
+  <text x="382" y="125" text-anchor="middle" font-family="'Orbitron', monospace" font-size="14" font-weight="900" fill="#fff">128</text>
+
+  <!-- Big Hero 2048 Tile in center -->
+  <rect x="195" y="150" width="210" height="100" rx="12" fill="url(#bg2048)" stroke="#ec4899" stroke-width="2"/>
+  <text x="300" y="218" text-anchor="middle" font-family="'Orbitron', monospace" font-size="52" font-weight="900" fill="#ec4899" letter-spacing="4">2048</text>
+
+  <text x="300" y="360" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="24" font-weight="900" fill="#38bdf8" letter-spacing="3">CYBER GRID PUZZLE</text>
+</svg>

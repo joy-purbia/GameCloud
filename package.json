@@ -1,0 +1,30 @@
+{
+  "name": "gamecloud-platform",
+  "version": "1.0.0",
+  "description": "GameCloud - Centralized Web-Based Gaming Platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "setup:db": "node database/setup.js",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "cd frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "gamecloud",
+    "gaming",
+    "webgl",
+    "threejs",
+    "browser-games",
+    "html5"
+  ],
+  "author": "GameCloud Team",
+  "license": "MIT"
+}
