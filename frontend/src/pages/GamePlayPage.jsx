@@ -4,6 +4,70 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
 import GamePlayer from '../components/GamePlayer';
 
+// Built-in standalone games that run 100% directly in browser with zero server dependencies
+const LOCAL_GAMES = {
+  'neon-racer': {
+    id: 1,
+    name: 'Neon Racer 3D',
+    slug: 'neon-racer',
+    genre: 'Racing',
+    status: 'playable',
+    launch_url: '/games/neon-racer/index.html',
+    launch_type: 'browser_webgl',
+    controls: {
+      'Accelerate': 'W / Up Arrow',
+      'Brake / Reverse': 'S / Down Arrow',
+      'Steer Left': 'A / Left Arrow',
+      'Steer Right': 'D / Right Arrow',
+      'Drift / Handbrake': 'Space',
+      'Restart Game': 'R'
+    }
+  },
+  '1': {
+    id: 1,
+    name: 'Neon Racer 3D',
+    slug: 'neon-racer',
+    genre: 'Racing',
+    status: 'playable',
+    launch_url: '/games/neon-racer/index.html',
+    launch_type: 'browser_webgl',
+    controls: {
+      'Accelerate': 'W / Up Arrow',
+      'Brake / Reverse': 'S / Down Arrow',
+      'Steer Left': 'A / Left Arrow',
+      'Steer Right': 'D / Right Arrow',
+      'Drift / Handbrake': 'Space',
+      'Restart Game': 'R'
+    }
+  },
+  '2048': {
+    id: 2,
+    name: '2048 Cyber Grid',
+    slug: '2048',
+    genre: 'Puzzle',
+    status: 'playable',
+    launch_url: '/games/2048/index.html',
+    launch_type: 'browser_canvas',
+    controls: {
+      'Move Tiles': 'Arrow Keys / WASD',
+      'Restart Game': 'R / New Game Button'
+    }
+  },
+  '2': {
+    id: 2,
+    name: '2048 Cyber Grid',
+    slug: '2048',
+    genre: 'Puzzle',
+    status: 'playable',
+    launch_url: '/games/2048/index.html',
+    launch_type: 'browser_canvas',
+    controls: {
+      'Move Tiles': 'Arrow Keys / WASD',
+      'Restart Game': 'R / New Game Button'
+    }
+  }
+};
+
 export default function GamePlayPage() {
   const { idOrSlug } = useParams();
   const [game, setGame] = useState(null);
@@ -14,13 +78,19 @@ export default function GamePlayPage() {
       try {
         setLoading(true);
         const res = await api.getGameById(idOrSlug);
-        if (res.success) {
+        if (res && res.success && res.data) {
           setGame(res.data);
+          return;
         }
       } catch (err) {
-        console.error('Error loading game for play:', err);
+        console.warn('API lookup offline, using browser-native fallback:', err.message);
       } finally {
         setLoading(false);
+      }
+
+      // Seamless direct fallback: if backend is offline, run directly from local bundle
+      if (LOCAL_GAMES[idOrSlug]) {
+        setGame(LOCAL_GAMES[idOrSlug]);
       }
     };
 
@@ -32,17 +102,22 @@ export default function GamePlayPage() {
       <div className="min-h-[80vh] flex flex-col items-center justify-center gap-3">
         <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
         <p className="text-xs text-slate-400 font-tech uppercase tracking-widest">
-          INITIALIZING VIEWPORT ENGINE...
+          LAUNCHING BROWSER ENGINE...
         </p>
       </div>
     );
   }
 
-  if (!game) {
+  // Active game (from DB or direct local fallback)
+  const activeGame = game || LOCAL_GAMES[idOrSlug];
+
+  if (!activeGame) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center text-center p-6">
         <h2 className="font-heading font-bold text-2xl text-white">Game Not Found</h2>
-        <p className="text-xs text-slate-400 mt-2 mb-6">Cannot launch unspecified game session.</p>
+        <p className="text-xs text-slate-400 mt-2 mb-6">
+          The game identifier "{idOrSlug}" is not available in the library.
+        </p>
         <Link to="/games" className="btn-primary text-xs uppercase tracking-wider">
           Return to Library
         </Link>
@@ -54,18 +129,18 @@ export default function GamePlayPage() {
     <div className="min-h-screen py-6 px-4 lg:px-8 max-w-7xl mx-auto flex flex-col">
       <div className="mb-4 flex items-center justify-between">
         <Link
-          to={`/games/${game.slug || game.id}`}
+          to="/games"
           className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-cyan-400 font-tech uppercase tracking-wider transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Exit Viewport
         </Link>
         <div className="text-xs text-slate-500 font-tech uppercase">
-          MODE: {game.launch_type} &bull; 60 FPS CAPABLE
+          MODE: {activeGame.launch_type || 'browser_webgl'} &bull; DIRECT BROWSER EXECUTION
         </div>
       </div>
 
       <div className="flex-1 w-full flex items-center justify-center">
-        <GamePlayer game={game} />
+        <GamePlayer game={activeGame} />
       </div>
     </div>
   );

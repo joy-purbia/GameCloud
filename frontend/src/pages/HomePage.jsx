@@ -12,11 +12,12 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { api } from '../services/api';
+import { DEFAULT_GAMES, DEFAULT_CATEGORIES } from '../data/defaultGames';
 import GameCard from '../components/GameCard';
 
 export default function HomePage() {
-  const [games, setGames] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [games, setGames] = useState(DEFAULT_GAMES);
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,10 +27,10 @@ export default function HomePage() {
           api.getGames(''),
           api.getCategories()
         ]);
-        if (gamesRes.success) setGames(gamesRes.data);
-        if (catRes.success) setCategories(catRes.data);
+        if (gamesRes.success && gamesRes.data?.length > 0) setGames(gamesRes.data);
+        if (catRes.success && catRes.data?.length > 0) setCategories(catRes.data);
       } catch (err) {
-        console.error('Failed to load home data:', err);
+        console.warn('Backend offline, using local default catalogue.');
       } finally {
         setLoading(false);
       }

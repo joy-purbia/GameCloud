@@ -132,10 +132,10 @@ export default function GamePlayer({ game }) {
           </div>
         </div>
 
-        {/* Center: Live Session Timer */}
+        {/* Center: Live Play Timer */}
         <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-black/40 rounded-full border border-white/5 font-tech text-xs text-slate-300">
           <Clock className="w-3.5 h-3.5 text-cyan-400" />
-          <span>SESSION:</span>
+          <span>PLAY TIME:</span>
           <span className="font-mono font-bold text-cyan-300">{formatTime(sessionSeconds)}</span>
         </div>
 
@@ -203,7 +203,7 @@ export default function GamePlayer({ game }) {
               Game Currently In Development
             </h3>
             <p className="text-sm text-slate-400 max-w-md mb-6">
-              <b>{game.name}</b> is catalogued as <span className="text-amber-400 uppercase font-semibold">{game.status}</span>. Direct browser execution requires WebAssembly bundling or remote streaming container initialization.
+              <b>{game.name}</b> is catalogued as <span className="text-amber-400 uppercase font-semibold">{game.status}</span>. You can play <b>Neon Racer 3D</b> and <b>2048</b> directly in your browser right now!
             </p>
             <button
               onClick={() => navigate('/games')}

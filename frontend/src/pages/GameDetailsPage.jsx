@@ -14,29 +14,27 @@ import {
   Sparkles
 } from 'lucide-react';
 import { api } from '../services/api';
+import { DEFAULT_GAMES } from '../data/defaultGames';
 import { useAuth } from '../context/AuthContext';
 
 export default function GameDetailsPage() {
   const { idOrSlug } = useParams();
   const { isAuthenticated } = useAuth();
-  const [game, setGame] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [game, setGame] = useState(() => DEFAULT_GAMES.find(g => g.slug === idOrSlug || g.id == idOrSlug) || null);
+  const [loading, setLoading] = useState(false);
   const [isFav, setIsFav] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        setLoading(true);
         const res = await api.getGameById(idOrSlug);
-        if (res.success) {
+        if (res && res.success && res.data) {
           setGame(res.data);
           setIsFav(Boolean(res.data.is_favourite));
         }
       } catch (err) {
-        console.error('Error fetching game details:', err);
-      } finally {
-        setLoading(false);
+        console.warn('Backend offline, using local game info.');
       }
     };
 

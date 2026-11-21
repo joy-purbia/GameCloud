@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, SlidersHorizontal, Gamepad2, X } from 'lucide-react';
 import { api } from '../services/api';
+import { DEFAULT_GAMES, DEFAULT_CATEGORIES } from '../data/defaultGames';
 import GameCard from '../components/GameCard';
 
 export default function GameLibraryPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [games, setGames] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [games, setGames] = useState(DEFAULT_GAMES);
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [loading, setLoading] = useState(false);
 
   // Filters state
   const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -38,7 +39,21 @@ export default function GameLibraryPage() {
         setGames(res.data);
       }
     } catch (err) {
-      console.error('Error fetching games library:', err);
+      console.warn('Backend offline, using filtered local catalogue.');
+      let filtered = [...DEFAULT_GAMES];
+      if (search.trim()) {
+        filtered = filtered.filter(g => 
+          g.name.toLowerCase().includes(search.toLowerCase()) || 
+          g.description.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      if (genre && genre !== 'all') {
+        filtered = filtered.filter(g => g.genre.toLowerCase() === genre.toLowerCase());
+      }
+      if (status && status !== 'all') {
+        filtered = filtered.filter(g => g.status === status);
+      }
+      setGames(filtered);
     } finally {
       setLoading(false);
     }
