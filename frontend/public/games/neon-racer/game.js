@@ -301,6 +301,10 @@ spawnTrackObjects();
 // --- INPUT EVENT LISTENERS ---
 window.addEventListener('keydown', (e) => {
   sounds.init();
+  if (!state.running && !state.gameOver && (e.code === 'KeyW' || e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'Enter')) {
+    document.getElementById('start-modal').classList.remove('active');
+    state.running = true;
+  }
   switch (e.code) {
     case 'KeyW':
     case 'ArrowUp':
@@ -351,8 +355,17 @@ window.addEventListener('keyup', (e) => {
   }
 });
 
-// UI Buttons
-document.getElementById('start-btn').addEventListener('click', () => {
+// UI Buttons & Click to Start
+container.addEventListener('click', () => {
+  sounds.init();
+  if (!state.running && !state.gameOver) {
+    document.getElementById('start-modal').classList.remove('active');
+    state.running = true;
+  }
+});
+
+document.getElementById('start-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
   sounds.init();
   document.getElementById('start-modal').classList.remove('active');
   state.running = true;

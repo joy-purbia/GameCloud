@@ -96,9 +96,6 @@ const getGameByIdOrSlug = async (req, res, next) => {
     const { idOrSlug } = req.params;
     const userId = req.user ? req.user.id : null;
 
-    const isNumeric = /^\d+$/.test(idOrSlug);
-    const whereClause = isNumeric ? 'g.id = ?' : 'g.slug = ?';
-
     const query = `
       SELECT 
         g.*,
@@ -109,11 +106,11 @@ const getGameByIdOrSlug = async (req, res, next) => {
       LEFT JOIN favourites f ON g.id = f.game_id
       LEFT JOIN game_sessions s ON g.id = s.game_id
       ${userId ? 'LEFT JOIN favourites uf ON g.id = uf.game_id AND uf.user_id = ' + pool.escape(userId) : ''}
-      WHERE ${whereClause}
+      WHERE (g.id = ? OR g.slug = ?)
       GROUP BY g.id
     `;
 
-    const [games] = await pool.query(query, [idOrSlug]);
+    const [games] = await pool.query(query, [idOrSlug, idOrSlug]);
 
     if (games.length === 0) {
       return res.status(404).json({

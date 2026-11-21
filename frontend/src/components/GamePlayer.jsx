@@ -179,15 +179,20 @@ export default function GamePlayer({ game }) {
       </div>
 
       {/* Main Viewport */}
-      <div className="relative flex-1 w-full h-full bg-black">
+      <div className="relative flex-1 w-full h-full min-h-0 bg-black">
         {game.status === 'playable' && game.launch_url ? (
           <iframe
             key={iframeKey}
             src={game.launch_url}
             title={game.name}
-            className="w-full h-full border-0 outline-none"
+            className="w-full h-full border-0 outline-none block"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             sandbox="allow-scripts allow-same-origin allow-pointer-lock"
+            onLoad={(e) => {
+              try {
+                e.target.contentWindow?.focus();
+              } catch (err) {}
+            }}
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#07090e]">

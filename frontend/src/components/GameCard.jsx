@@ -42,7 +42,10 @@ export default function GameCard({ game, onFavouriteToggle }) {
     <div className="group relative bg-[#0d1017] border border-white/5 rounded-2xl overflow-hidden neon-border-hover flex flex-col justify-between transition-all duration-300">
       
       {/* Thumbnail Area */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+      <Link 
+        to={isPlayable ? `/play/${game.slug || game.id}` : `/games/${game.slug || game.id}`}
+        className="block relative aspect-[16/10] overflow-hidden bg-slate-900 cursor-pointer"
+      >
         <img
           src={game.thumbnail || '/images/thumbnails/default.jpg'}
           alt={game.name}
@@ -92,7 +95,7 @@ export default function GameCard({ game, onFavouriteToggle }) {
             {game.launch_type ? game.launch_type.replace('_', ' ') : 'Browser'}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Content Area */}
       <div className="p-5 flex-1 flex flex-col justify-between gap-4">
@@ -103,9 +106,14 @@ export default function GameCard({ game, onFavouriteToggle }) {
             </span>
           </div>
 
-          <h3 className="font-heading font-bold text-lg text-white group-hover:text-cyan-400 transition-colors line-clamp-1">
-            {game.name}
-          </h3>
+          <Link
+            to={isPlayable ? `/play/${game.slug || game.id}` : `/games/${game.slug || game.id}`}
+            className="block"
+          >
+            <h3 className="font-heading font-bold text-lg text-white group-hover:text-cyan-400 transition-colors line-clamp-1">
+              {game.name}
+            </h3>
+          </Link>
 
           <p className="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
             {game.description}
